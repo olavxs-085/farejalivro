@@ -1,0 +1,42 @@
+{
+  "manifest_version": 3,
+  "name": "FarejaLivro",
+  "version": "1.0.0",
+  "description": "Monitore o preço de livros na Amazon, Estante Virtual e outras lojas do Brasil. Aviso quando cai e relatório todo mês.",
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_title": "FarejaLivro",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": [
+    "storage",
+    "alarms",
+    "notifications",
+    "offscreen",
+    "scripting"
+  ],
+  "host_permissions": [
+    "https://www.amazon.com.br/*",
+    "https://*.estantevirtual.com.br/*",
+    "https://*.mercadolivre.com.br/*",
+    "https://*.magazineluiza.com.br/*",
+    "https://leitura.com.br/*",
+    "https://*.leitura.com.br/*",
+    "https://*.travessa.com.br/*"
+  ],
+  "optional_host_permissions": [
+    "https://*/*",
+    "http://*/*"
+  ]
+}

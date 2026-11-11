@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>FarejaLivro</title>
+    <link rel="icon" href="icons/icon32.png" />
+    <script src="theme.js"></script>
+    <link rel="stylesheet" href="app.css" />
+  </head>
+  <body>
+    <div class="backdrop" aria-hidden="true"></div>
+    <div class="edge" id="edge" aria-hidden="true"></div>
+    <div class="wrap">
+      <header class="topbar glass">
+        <div class="brand">
+          <img class="appicon" src="icons/icon128.png" alt="" />
+          <div>
+            <div class="name">FarejaLivro</div>
+            <div class="status" id="status">Carregando…</div>
+          </div>
+        </div>
+        <div class="spacer"></div>
+        <div class="segmented" role="tablist" aria-label="Seções">
+          <span class="thumb" aria-hidden="true"></span>
+          <button role="tab" id="tab-books" aria-controls="panel-books" aria-selected="true">Meus livros<span class="count" id="countBooks" hidden></span></button>
+          <button role="tab" id="tab-stores" aria-controls="panel-stores" aria-selected="false">Lojas</button>
+        </div>
+        <button class="btn glassy theme-btn" type="button" data-theme-toggle></button>
+        <button class="btn glassy" id="btnCheck" title="Conferir os preços de todos os livros agora">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/></svg>
+          Checar agora
+        </button>
+        <button class="btn primary" id="btnReport">Relatório do mês</button>
+      </header>
+
+      <section class="hero">
+        <div class="hero-grid">
+          <div>
+        <h1>Digite o livro. Eu procuro nas lojas e aviso quando o preço cair.</h1>
+        <p>Você escolhe a edição certa em cada loja. Todo dia eu confiro o preço e, no dia 1, mando o relatório do mês.</p>
+          </div>
+          <img class="hero-mark" src="icons/logo-mark.png" alt="" />
+        </div>
+        <form id="formSearch" class="searchbar" autocomplete="off">
+          <div class="field">
+            <label for="fTitle">Nome do livro</label>
+            <input id="fTitle" type="text" placeholder="Ex.: Torto Arado" required />
+          </div>
+          <div class="field">
+            <label for="fAuthor">Autor</label>
+            <input id="fAuthor" type="text" placeholder="Ex.: Itamar Vieira Junior" />
+          </div>
+          <div class="field">
+            <label for="fTarget">Avise quando chegar em</label>
+            <input id="fTarget" type="number" min="1" step="0.01" placeholder="R$ (opcional)" />
+          </div>
+          <button class="btn white" type="submit" id="btnSearch">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+            Farejar
+          </button>
+        </form>
+      </section>
+
+      <section class="card" id="resultsCard" hidden>
+        <div class="card-head">
+          <h2 id="resultsTitle">Resultados</h2>
+          <div class="spacer"></div>
+          <button class="btn quiet" id="btnCloseResults" type="button">Fechar</button>
+        </div>
+        <p class="sub">Marque a edição que você quer acompanhar em cada loja. O resultado mais parecido já vem marcado.</p>
+        <div id="results"></div>
+      </section>
+
+      <main>
+        <section class="panel active" id="panel-books" role="tabpanel" aria-labelledby="tab-books">
+          <div class="card">
+            <div class="card-head"><h2>Meus livros</h2></div>
+            <p class="sub">Preços conferidos uma vez por dia, sempre que o Chrome estiver aberto.</p>
+            <div id="books"></div>
+          </div>
+        </section>
+
+        <section class="panel" id="panel-stores" role="tabpanel" aria-labelledby="tab-stores">
+          <div class="card">
+            <div class="card-head"><h2>Lojas</h2></div>
+            <p class="sub">Ligue só as lojas onde você quer que eu procure.</p>
+            <table class="stores" id="stores"></table>
+          </div>
+          <div class="card">
+            <div class="card-head"><h2>Adicionar uma loja</h2></div>
+            <p class="sub">Funciona com a maioria das livrarias online. Leva 30 segundos.</p>
+            <div class="steps">
+              <div>Abra o site da loja e pesquise a palavra <b>livro</b>.</div>
+              <div>Copie o endereço da página de resultados, na barra do Chrome.</div>
+              <div>Cole aqui embaixo, dê um nome e clique em Adicionar.</div>
+            </div>
+            <form id="formStore" class="inline-form">
+              <div>
+                <label for="sName">Nome da loja</label>
+                <input type="text" id="sName" placeholder="Ex.: Livraria Cultura" required />
+              </div>
+              <div>
+                <label for="sUrl">Endereço da busca pela palavra "livro"</label>
+                <input type="url" id="sUrl" placeholder="https://www.loja.com.br/busca?q=livro" required />
+              </div>
+              <button class="btn primary" type="submit">Adicionar loja</button>
+            </form>
+            <div id="storeMsg" class="msg" role="status"></div>
+          </div>
+        </section>
+      </main>
+
+      <section class="card support" id="apoie" aria-labelledby="apoieTitle">
+        <div class="support-intro">
+          <img src="icons/logo-mark.png" alt="" />
+          <div>
+            <h2 id="apoieTitle">Apoie o FarejaLivro</h2>
+            <p class="sub">A extensão é gratuita. Se ela te ajudou a pagar menos num livro, você pode mandar qualquer valor para manter o projeto.</p>
+          </div>
+        </div>
+        <div class="support-grid">
+          <div class="tile">
+            <div class="qr"><img src="icons/qr-pix.png" alt="QR code Pix para apoiar o FarejaLivro" /></div>
+            <div class="tile-body">
+              <b>Pix</b>
+              <span class="muted">Qualquer valor · Lucas Alves de Lima</span>
+              <button class="btn primary" type="button" id="btnPix">Copiar Pix copia e cola</button>
+            </div>
+          </div>
+          <div class="tile">
+            <div class="qr"><img src="icons/qr-bmc.png" alt="QR code do Buy Me a Coffee" /></div>
+            <div class="tile-body">
+              <b>Buy Me a Coffee</b>
+              <span class="muted">Cartão de crédito, de qualquer país</span>
+              <a class="btn bmc" href="https://www.buymeacoffee.com/oalvxs" target="_blank" rel="noopener">Abrir buymeacoffee.com/oalvxs</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div class="selbar glass" id="selbar" role="region" aria-label="Itens marcados">
+      <span id="selCount">Nada marcado</span>
+      <button class="btn primary" id="btnSave" disabled>Monitorar marcados</button>
+    </div>
+
+    <script src="stores.js"></script>
+    <script src="extractor.js"></script>
+    <script src="engine.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

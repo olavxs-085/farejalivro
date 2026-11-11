@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Relatório de preços — FarejaLivro</title>
+    <link rel="icon" href="icons/icon32.png" />
+    <script src="theme.js"></script>
+    <link rel="stylesheet" href="app.css" />
+    <style>
+      .backdrop { height: 400px; }
+      .monthnav { display: inline-flex; align-items: center; gap: 2px; padding: 4px; border-radius: 999px; background: rgba(15, 26, 46, 0.06); }
+      .monthnav .btn { min-height: 36px; width: 36px; padding: 0; font-size: 18px; }
+      .monthnav .label { font-weight: 600; font-size: 14px; padding: 0 10px; min-width: 150px; text-align: center; text-transform: capitalize; }
+      .hero { padding: 48px 6px 30px; }
+      .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; margin: 16px 0 6px; }
+      .kpi { background: var(--surface-2); border-radius: 18px; padding: 14px 16px; }
+      .kpi .v { font-size: 24px; font-weight: 750; letter-spacing: -0.02em; line-height: 1.15; }
+      .kpi .l { font-size: 12.5px; color: var(--muted); margin-top: 2px; }
+      .kpi.main { background: var(--brand); color: #fff; }
+      .kpi.main .l { color: rgba(255, 255, 255, 0.8); }
+      .kpi .v.down { color: var(--down); }
+      .kpi .v.up { color: var(--up); }
+      table.rep { width: 100%; border-collapse: collapse; font-size: 14px; margin-top: 8px; }
+      table.rep th { text-align: right; font-size: 12px; color: var(--muted); font-weight: 600; padding: 8px 10px; border-bottom: 1px solid var(--line); }
+      table.rep th:first-child, table.rep td:first-child { text-align: left; }
+      table.rep td { text-align: right; padding: 10px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+      table.rep tr:last-child td { border-bottom: 0; }
+      .chip { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 8px; vertical-align: 0; }
+      .chg.down { color: var(--down); font-weight: 600; }
+      .chg.up { color: var(--up); font-weight: 600; }
+      svg.chart { width: 100%; height: auto; display: block; margin: 14px 0 4px; }
+      svg.chart text { font: 11px system-ui, sans-serif; fill: var(--chart-text); }
+      .book-rep { break-inside: avoid; }
+      @media print {
+        body { background: #fff; }
+        .backdrop, .noprint { display: none !important; }
+        .hero { color: var(--ink); padding: 0 0 12px; }
+        .hero p { color: var(--muted); }
+        .card { box-shadow: none; border: 1px solid var(--line); }
+        .kpi.main { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="backdrop" aria-hidden="true"></div>
+    <div class="wrap">
+      <header class="topbar glass noprint">
+        <div class="brand">
+          <img class="appicon" src="icons/icon128.png" alt="" />
+          <div>
+            <div class="name">FarejaLivro</div>
+            <div class="status">Relatório mensal de preços</div>
+          </div>
+        </div>
+        <div class="spacer"></div>
+        <div class="monthnav" role="group" aria-label="Escolher mês">
+          <button class="btn quiet" id="prev" aria-label="Mês anterior">‹</button>
+          <span class="label" id="monthLabel"></span>
+          <button class="btn quiet" id="next" aria-label="Próximo mês">›</button>
+        </div>
+        <button class="btn glassy theme-btn" type="button" data-theme-toggle></button>
+        <button class="btn primary" id="print">Salvar em PDF</button>
+      </header>
+      <section class="hero">
+        <h1 id="title">Relatório de preços</h1>
+        <p id="subtitle"></p>
+      </section>
+      <div id="content"></div>
+      <p class="noprint" style="text-align:center;color:var(--muted);font-size:13.5px;margin:22px 0 0">
+        O FarejaLivro é gratuito. Gostou? <a href="app.html#apoie">Apoie o projeto com Pix ou Buy Me a Coffee</a>.
+      </p>
+    </div>
+    <script src="stores.js"></script>
+    <script src="engine.js"></script>
+    <script src="report.js"></script>
+  </body>
+</html>
