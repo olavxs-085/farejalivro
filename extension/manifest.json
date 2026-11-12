@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "FarejaLivro",
-  "version": "1.0.1",
+  "version": "1.5.0",
   "description": "Encontre o menor preço de um livro nas lojas do Brasil. Aviso quando o preço cai e relatório todo mês.",
   "icons": {
     "16": "icons/icon16.png",

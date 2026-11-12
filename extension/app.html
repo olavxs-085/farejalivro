@@ -25,6 +25,7 @@
           <span class="thumb" aria-hidden="true"></span>
           <button role="tab" id="tab-books" aria-controls="panel-books" aria-selected="true">Meus livros<span class="count" id="countBooks" hidden></span></button>
           <button role="tab" id="tab-stores" aria-controls="panel-stores" aria-selected="false">Lojas</button>
+          <button role="tab" id="tab-ind" aria-controls="panel-ind" aria-selected="false">Indicações<span class="count" id="countInd" hidden></span></button>
         </div>
         <button class="btn glassy theme-btn" type="button" data-theme-toggle></button>
         <button class="btn glassy" id="btnCheck" title="Conferir os preços de todos os livros agora">
@@ -38,7 +39,7 @@
         <div class="hero-grid">
           <div>
         <h1>Digite o livro. Eu procuro nas lojas e aviso quando o preço cair.</h1>
-        <p>Você escolhe a edição certa em cada loja. Todo dia eu confiro o preço e, no dia 1, mando o relatório do mês.</p>
+        <p>Você escolhe a edição certa em cada loja. Eu confiro o preço todo dia ou toda semana, aviso com um latido quando achar preço bom e, no dia 1, mando o relatório do mês.</p>
           </div>
           <img class="hero-mark" src="icons/logo-mark.png" alt="" />
         </div>
@@ -83,6 +84,41 @@
 
         <section class="panel" id="panel-stores" role="tabpanel" aria-labelledby="tab-stores">
           <div class="card">
+            <div class="card-head"><h2>Conferência e avisos</h2></div>
+            <p class="sub">Escolha de quanto em quanto tempo eu confiro os preços e quando você quer ser avisado.</p>
+            <div class="cfg-grid">
+              <div class="cfg-block">
+                <div class="cfg-title" id="freqLabel">Conferir os preços</div>
+                <div class="segmented small-seg" role="radiogroup" aria-labelledby="freqLabel">
+                  <button type="button" role="radio" data-freq="dia" aria-checked="true">Todo dia</button>
+                  <button type="button" role="radio" data-freq="semana" aria-checked="false">Toda semana</button>
+                </div>
+                <p class="cfg-hint">Todo dia pega promoção relâmpago. Só confere com o Chrome aberto.</p>
+              </div>
+              <div class="cfg-block">
+                <div class="cfg-title">Me avisar quando</div>
+                <label class="cfg-row"><span class="switch"><input type="checkbox" id="cAlvo" /><span></span></span>chegar no preço-alvo que eu definir</label>
+                <label class="cfg-row"><span class="switch"><input type="checkbox" id="cMinimo" /><span></span></span>chegar no menor preço que eu já vi</label>
+                <div class="cfg-row">
+                  <label class="cfg-row-inner" for="cQueda"><span class="switch"><input type="checkbox" id="cQueda" /><span></span></span>o preço cair</label>
+                  <select id="cQuedaPct" aria-label="Porcentagem de queda">
+                    <option value="5">5%</option><option value="10">10%</option><option value="15">15%</option><option value="20">20%</option><option value="30">30%</option>
+                  </select>
+                  <span>ou mais</span>
+                </div>
+              </div>
+              <div class="cfg-block">
+                <div class="cfg-title">Som do aviso</div>
+                <label class="cfg-row"><span class="switch"><input type="checkbox" id="cLatido" /><span></span></span>Latido</label>
+                <button class="btn glassy small-btn" type="button" id="btnOuvir">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M19 5a10 10 0 0 1 0 14"/></svg>
+                  Ouvir latido
+                </button>
+              </div>
+            </div>
+            <div class="msg ok" id="cfgMsg" role="status"></div>
+          </div>
+          <div class="card">
             <div class="card-head"><h2>Lojas</h2></div>
             <p class="sub">Ligue só as lojas onde você quer que eu procure.</p>
             <table class="stores" id="stores"></table>
@@ -108,6 +144,50 @@
             </form>
             <div id="storeMsg" class="msg" role="status"></div>
           </div>
+        </section>
+
+        <section class="panel" id="panel-ind" role="tabpanel" aria-labelledby="tab-ind">
+          <div class="card">
+            <div class="card-head"><h2>Indicações de livros</h2><div class="spacer"></div><span class="pill" id="indStatus" hidden></span></div>
+            <p class="sub">Escolha as categorias que você quer ver. Gostou de um livro? Compre pelo link ou mande o FarejaLivro vigiar o preço.</p>
+            <div class="catsearch">
+              <label class="catbar" for="catSearch">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+                <input id="catSearch" type="text" autocomplete="off" placeholder="Pesquisar categoria (ex.: terror, romance)" aria-label="Pesquisar categoria" aria-controls="catDrop" aria-expanded="false" />
+              </label>
+              <div class="catdrop" id="catDrop" role="listbox" aria-label="Categorias" hidden></div>
+            </div>
+            <div class="catline" id="catLine"></div>
+            <label class="avisar">
+              <span class="switch"><input type="checkbox" id="indAvisar" /><span></span></span>
+              Avisar quando chegar indicação nova nas minhas categorias
+            </label>
+          </div>
+
+          <div class="card">
+            <div class="card-head">
+              <img src="icons/logo-mark.png" alt="" class="ind-mark" />
+              <h2>Da equipe FarejaLivro</h2>
+              <span class="pill aff">Links de afiliado</span>
+            </div>
+            <p class="aff-note">Os botões <b>Comprar no Mercado Livre</b> desta seção são links de afiliado. Se você comprar por eles, o FarejaLivro ganha uma pequena comissão e você não paga nada a mais. Esse dinheiro ajuda a equipe a crescer e a lançar o FarejaLivro como app para celular.</p>
+            <div id="indTeam" class="ind-grid"></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head">
+              <h2>Dos leitores</h2>
+              <span class="pill">Revisadas pela equipe</span>
+              <div class="spacer"></div>
+              <button class="btn primary" type="button" id="btnIndicar">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+                Indicar um livro
+              </button>
+            </div>
+            <p class="sub">Indicações enviadas por quem usa o FarejaLivro. A equipe lê cada uma antes de publicar.</p>
+            <div id="indReaders"></div>
+          </div>
+          <p class="ind-foot">Transparência: só os botões “Comprar no Mercado Livre” da equipe são links de afiliado. Os links de preço em Meus livros e as indicações dos leitores não têm comissão nenhuma.</p>
         </section>
       </main>
 
@@ -145,9 +225,43 @@
       <button class="btn primary" id="btnSave" disabled>Monitorar marcados</button>
     </div>
 
+    <div class="overlay" id="indModal" hidden>
+      <div class="card modal" role="dialog" aria-modal="true" aria-labelledby="indModalTitle">
+        <form id="formIndicar" class="modal-form">
+          <div>
+            <h2 id="indModalTitle">Indicar um livro</h2>
+            <p class="sub">Sua indicação aparece para outros leitores depois que a equipe revisar.</p>
+          </div>
+          <div class="grid2">
+            <div class="fld"><label for="iTitulo">Nome do livro</label><input id="iTitulo" type="text" maxlength="200" required placeholder="Ex.: Torto Arado" /></div>
+            <div class="fld"><label for="iAutor">Autor</label><input id="iAutor" type="text" maxlength="200" required placeholder="Ex.: Itamar Vieira Junior" /></div>
+          </div>
+          <div class="fld"><label for="iCat">Categoria</label><select id="iCat" required></select></div>
+          <div class="fld"><label for="iTexto">Por que você indica? (<span id="iCount">0</span>/280)</label><textarea id="iTexto" maxlength="280" required placeholder="Conte em poucas linhas o que você gostou."></textarea></div>
+          <div class="fld"><label for="iNome">Seu nome ou @ (opcional)</label><input id="iNome" type="text" maxlength="60" placeholder="Aparece como “Indicado por…”. Em branco, fica anônimo." /></div>
+          <label class="consent"><input type="checkbox" id="iOk" required />Concordo que minha indicação pode aparecer para outros leitores do FarejaLivro.</label>
+          <div class="msg err" id="iMsg" role="alert"></div>
+          <div class="modal-actions">
+            <button class="btn quiet" type="button" id="btnIndCancelar">Cancelar</button>
+            <button class="btn primary" type="submit" id="btnIndEnviar">Enviar indicação</button>
+          </div>
+        </form>
+        <div class="modal-done" id="indDone" hidden>
+          <img src="icons/logo-mark.png" alt="" />
+          <h2>Recebemos sua indicação!</h2>
+          <p class="sub">A equipe lê cada indicação. Quando a sua for aprovada, ela aparece em “Dos leitores”.</p>
+          <button class="btn primary" type="button" id="btnIndFechar">Fechar</button>
+        </div>
+      </div>
+    </div>
+
     <script src="stores.js"></script>
     <script src="extractor.js"></script>
     <script src="engine.js"></script>
+    <script src="config.js"></script>
+    <script src="indicacoes.js"></script>
     <script src="app.js"></script>
+    <script src="ind-ui.js"></script>
+    <script src="avisos-ui.js"></script>
   </body>
 </html>

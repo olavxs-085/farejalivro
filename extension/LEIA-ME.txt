@@ -1,0 +1,35 @@
+FAREJALIVRO — como instalar (1 minuto)
+
+1. Descompacte este arquivo .zip numa pasta que você não vá apagar
+   (ex.: Documentos\FarejaLivro). O Chrome usa a pasta direto dali.
+2. No Chrome, abra o endereço:  chrome://extensions
+3. Ligue o "Modo do desenvolvedor" (chave no canto superior direito).
+4. Clique em "Carregar sem compactação" e escolha a pasta "farejalivro".
+5. Clique no ícone de quebra-cabeça do Chrome e fixe o FarejaLivro na barra.
+
+COMO USAR
+- Clique no ícone do FarejaLivro. Digite o nome do livro e o autor e clique em "Buscar nas lojas".
+- Marque a edição certa em cada loja e clique em "Monitorar marcados".
+- Se quiser, coloque um preço-alvo: você recebe um aviso quando o livro chegar nesse valor.
+- Os preços são conferidos todo dia ou toda semana (você escolhe na aba Lojas),
+  sempre que o Chrome estiver aberto. Os avisos de preço tocam um latido.
+- No dia 1 de cada mês chega uma notificação com o relatório do mês anterior.
+  Você também pode abrir o relatório quando quiser, pelo botão "Relatório do mês".
+- No relatório, o botão "Salvar em PDF" gera um arquivo para guardar ou mandar para alguém.
+
+ADICIONAR UMA LOJA
+- Abra o site da loja e pesquise a palavra "livro".
+- Copie o endereço da página de resultados e cole na seção "Lojas" da extensão.
+- O Chrome vai pedir permissão para a extensão ler aquele site. Aceite.
+
+BOM SABER
+- Quando uma loja monta a página só depois de carregar (ou o site pede mais tempo),
+  a extensão abre essa página numa janela minimizada por alguns segundos e fecha sozinha.
+- Se uma loja pedir login ou "não sou robô", abra o site uma vez no seu Chrome e tente de novo.
+- Seus livros e preços ficam só no seu computador, dentro do Chrome.
+- Na aba Indicações, os botões "Comprar no Mercado Livre" da equipe são links de
+  afiliado: comprando por eles você ajuda o projeto e não paga nada a mais.
+
+APOIE O PROJETO
+- O FarejaLivro é gratuito. No fim da página da extensão tem o Pix (QR code e
+  botão de copia e cola) e o link do Buy Me a Coffee.

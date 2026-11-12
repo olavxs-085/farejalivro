@@ -1,3 +1,16 @@
+let audio = null;
+chrome.runtime.onMessage.addListener((msg, sender, reply) => {
+  if (msg.target !== "offscreen" || msg.type !== "latir") return false;
+  try {
+    audio = audio || new Audio("sounds/latido.mp3");
+    audio.currentTime = 0;
+    audio.volume = 0.9;
+    audio.onended = () => reply({ ok: true });
+    audio.play().catch((e) => reply({ ok: false, error: String(e) }));
+  } catch (e) { reply({ ok: false, error: String(e) }); }
+  return true;
+});
+
 chrome.runtime.onMessage.addListener((msg, sender, reply) => {
   if (msg.target !== "offscreen" || msg.type !== "parse") return false;
   try {

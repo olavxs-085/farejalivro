@@ -4,7 +4,7 @@
 
 # FarejaLivro
 
-Extensão gratuita para o Google Chrome que procura um livro nas lojas do Brasil, confere o preço todo dia e avisa quando ele cai. No dia 1 de cada mês, ela mostra um relatório com a variação de preço de cada loja.
+Extensão gratuita para o Google Chrome que procura um livro nas lojas do Brasil, confere o preço todo dia ou toda semana e avisa com um latido quando ele cai. Tem indicações de livros da equipe e dos leitores e, no dia 1 de cada mês, um relatório com a variação de preço de cada loja.
 
 ![Tela principal do FarejaLivro](docs/img/captura-1-meus-livros.png)
 
@@ -12,8 +12,9 @@ Extensão gratuita para o Google Chrome que procura um livro nas lojas do Brasil
 
 - **Busca em várias lojas de uma vez.** Você digita o nome do livro e o autor, e ela mostra o resultado de cada loja com capa, edição e preço.
 - **Você escolhe a edição.** O resultado mais parecido já vem marcado. É só confirmar ou trocar, para não acompanhar o e-book ou a edição errada.
-- **Confere o preço todo dia.** Uma vez por dia, sempre que o Chrome estiver aberto.
-- **Preço-alvo.** Defina um valor e receba uma notificação quando o livro chegar nele.
+- **Confere o preço todo dia ou toda semana.** Você escolhe, na aba Lojas. Funciona sempre que o Chrome estiver aberto.
+- **Avisos configuráveis, com latido.** Quando o livro chega no seu preço-alvo, no menor preço já visto ou cai uma porcentagem que você escolhe.
+- **Indicações de livros.** Da equipe e dos leitores, filtradas pelas categorias que você segue. Dá para indicar um livro e mandar monitorar o preço de uma indicação com um clique.
 - **Relatório mensal.** O preço de cada loja no início e no fim do mês, o menor e o maior, a variação e um gráfico. Dá para salvar em PDF.
 - **Modo claro e escuro.** Pode seguir o tema do computador ou ser escolhido na mão.
 
@@ -48,7 +49,9 @@ O Chrome vai pedir permissão para a extensão ler aquele site. A extensão test
 
 ## Privacidade
 
-Tudo fica no seu computador. A extensão não tem cadastro, não coleta dados e não envia nada para servidores. Ela só abre as páginas das lojas que você escolheu para ler o preço. Leia a [política de privacidade](PRIVACIDADE.md).
+Seus livros, preços e preferências ficam no seu computador. A extensão não tem cadastro. Só sai do seu computador a indicação de livro que você decidir enviar. Leia a [política de privacidade](PRIVACIDADE.md).
+
+**Links de afiliado:** as indicações da equipe têm o botão **Comprar no Mercado Livre**, que é um link de afiliado. Se você comprar por ele, o FarejaLivro ganha uma comissão e você não paga nada a mais. Esse dinheiro ajuda o projeto a virar app para celular. Nenhum outro link da extensão tem comissão.
 
 O FarejaLivro não tem relação com as lojas citadas. Os nomes das lojas pertencem aos seus donos.
 
@@ -62,8 +65,12 @@ Extensão Manifest V3, em JavaScript puro, sem bibliotecas e sem build.
 | `extension/stores.js` | Lojas padrão: endereço de busca e onde fica título, preço e link em cada uma |
 | `extension/extractor.js` | Lê busca e página de produto. Usa os seletores da loja e, se falharem, um leitor genérico (JSON-LD, metatags, preço em destaque) |
 | `extension/engine.js` | Busca, pontuação dos resultados, checagem diária, histórico e resumo do mês |
-| `extension/background.js` | Alarme de hora em hora, checagem diária, notificações e aviso do relatório |
-| `extension/offscreen.*` | Lê o HTML das lojas em segundo plano (o service worker não tem DOMParser) |
+| `extension/background.js` | Alarme de hora em hora, conferência diária ou semanal, avisos de preço com latido, número de indicações novas no ícone e aviso do relatório |
+| `extension/indicacoes.js` / `ind-ui.js` | Aba Indicações: lê as indicações publicadas e envia as dos leitores para revisão |
+| `extension/config.js` / `avisos-ui.js` | Preferências de conferência e avisos |
+| `extension/offscreen.*` | Lê o HTML das lojas em segundo plano e toca o latido (o service worker não tem DOMParser nem áudio) |
+| `equipe/` | Painel da equipe (GitHub Pages): aprova indicações dos leitores e publica as da equipe |
+| `supabase/schema.sql` | Estrutura e regras de segurança do banco das indicações |
 | `extension/app.*` | Página principal: busca, meus livros, lojas e apoio |
 | `extension/report.*` | Relatório mensal com gráfico |
 | `extension/theme.js` | Modo claro, escuro e automático |
