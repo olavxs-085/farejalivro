@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>FarejaLivro Equipe — Gestão das indicações</title>
+    <link rel="icon" href="icon32.png" />
+    <link rel="stylesheet" href="equipe.css" />
+  </head>
+  <body>
+    <div class="backdrop" aria-hidden="true"></div>
+    <div class="wrap">
+      <header class="topbar glass">
+        <div class="brand">
+          <img class="appicon" src="icon128.png" alt="" />
+          <div>
+            <div class="name">FarejaLivro <span class="pill team">Equipe</span></div>
+            <div class="status" id="who">Gestão das indicações</div>
+          </div>
+        </div>
+        <div class="spacer"></div>
+        <button class="btn glassy" id="btnSair" type="button" hidden>Sair</button>
+      </header>
+
+      <!-- Login -->
+      <section id="vLogin" class="login" hidden>
+        <div class="card loginbox">
+          <img src="logo-mark.png" alt="" class="loginmark" />
+          <h1>Entrar no painel da equipe</h1>
+          <p class="sub">Use o e-mail e a senha cadastrados no Supabase para a equipe.</p>
+          <form id="formLogin" class="stack">
+            <div class="fld">
+              <label for="lEmail">E-mail</label>
+              <input id="lEmail" type="email" autocomplete="username" required />
+            </div>
+            <div class="fld">
+              <label for="lSenha">Senha</label>
+              <input id="lSenha" type="password" autocomplete="current-password" required />
+            </div>
+            <div id="loginMsg" class="msg err" role="alert"></div>
+            <button class="btn primary" type="submit" id="btnEntrar">Entrar</button>
+          </form>
+        </div>
+      </section>
+
+      <!-- App -->
+      <main id="vApp" hidden>
+        <section class="hero">
+          <h1>Gestão das indicações</h1>
+          <p>Aprove o que os leitores enviaram, publique as indicações da equipe com link de afiliado e tire do ar o que não serve mais. Tudo aparece na extensão de todo mundo na hora.</p>
+          <p class="demo-note" id="demoNote" hidden>Modo de demonstração: nada aqui vai pro banco de verdade.</p>
+        </section>
+
+        <div class="kpis">
+          <div class="kpi"><b id="kPend">–</b><span>Esperando revisão</span></div>
+          <div class="kpi"><b id="kTeam">–</b><span>Da equipe no ar</span></div>
+          <div class="kpi"><b id="kReaders">–</b><span>De leitores no ar</span></div>
+          <div class="kpi"><b id="kOff">–</b><span>Fora do ar</span></div>
+        </div>
+
+        <section class="card">
+          <div class="seg" role="tablist" aria-label="Gestão">
+            <button role="tab" type="button" data-tab="pendentes" id="tab-pendentes">Pendentes<span class="count" id="countPend" hidden></span></button>
+            <button role="tab" type="button" data-tab="publicadas" id="tab-publicadas">Publicadas</button>
+            <button role="tab" type="button" data-tab="nova" id="tab-nova">Nova indicação</button>
+            <button role="tab" type="button" data-tab="importar" id="tab-importar">Importar lista</button>
+          </div>
+
+          <!-- Pendentes -->
+          <div class="panel" id="panel-pendentes" role="tabpanel" aria-labelledby="tab-pendentes">
+            <div class="row-head">
+              <h2>Enviadas pelos leitores</h2>
+              <span class="pill" id="bloqHoje">0 bloqueadas automaticamente hoje</span>
+              <div class="spacer"></div>
+              <div class="bulk" id="bulk" hidden>
+                <span id="bulkTxt"></span>
+                <button class="btn ok" type="button" id="btnBulkOk">Aprovar selecionadas</button>
+                <button class="btn no" type="button" id="btnBulkNo">Recusar</button>
+              </div>
+            </div>
+            <p class="sub">Aprovou, aparece na hora em “Dos leitores”. Recusou, some da fila e o leitor não é avisado.</p>
+            <div id="pendList"></div>
+          </div>
+
+          <!-- Publicadas -->
+          <div class="panel" id="panel-publicadas" role="tabpanel" aria-labelledby="tab-publicadas" hidden>
+            <div class="row-head">
+              <h2>Publicadas</h2>
+              <div class="spacer"></div>
+              <div class="fld search"><input type="search" id="pubQ" aria-label="Filtrar publicadas" placeholder="Filtrar por título, autor ou categoria" /></div>
+            </div>
+            <div class="scrollx">
+              <div class="prow head"><span></span><span>Livro</span><span>Categoria</span><span>Origem</span><span>Link de afiliado</span><span>No ar</span><span></span></div>
+              <div id="pubList"></div>
+            </div>
+          </div>
+
+          <!-- Nova indicação -->
+          <div class="panel" id="panel-nova" role="tabpanel" aria-labelledby="tab-nova" hidden>
+            <div class="split">
+              <form id="formNova" class="stack" novalidate>
+                <div>
+                  <h2 id="formTitle">Nova indicação da equipe</h2>
+                  <p class="sub" id="formSub">Preencha, confira a prévia ao lado e publique. Aparece na extensão de todo mundo na hora.</p>
+                </div>
+                <div class="fld" id="wrapLink">
+                  <label for="fLink">Link de afiliado do Mercado Livre</label>
+                  <input id="fLink" type="url" class="mono" placeholder="https://meli.la/..." autocomplete="off" />
+                  <div class="hint" id="linkHint">Gere no portal de afiliados do ML e cole aqui.</div>
+                </div>
+                <div class="grid2">
+                  <div class="fld"><label for="fTitle">Nome do livro</label><input id="fTitle" type="text" maxlength="200" autocomplete="off" /></div>
+                  <div class="fld"><label for="fAuthor">Autor</label><input id="fAuthor" type="text" maxlength="200" autocomplete="off" /></div>
+                </div>
+                <div class="grid2">
+                  <div class="fld"><label for="fCat">Categoria</label><select id="fCat"></select></div>
+                  <div class="fld">
+                    <label for="fCover">Capa (opcional)</label>
+                    <input id="fCover" type="url" placeholder="Em branco: busco sozinho" autocomplete="off" />
+                    <div class="hint">Dá pra colar o endereço da foto do anúncio (botão direito › Copiar endereço da imagem).</div>
+                  </div>
+                </div>
+                <div class="fld"><label for="fText">Texto da equipe (<span id="textCount">0</span>/280)</label><textarea id="fText" maxlength="280"></textarea></div>
+                <div id="formMsg" class="msg err" role="alert"></div>
+                <div class="actions">
+                  <button class="btn no" type="button" id="btnExcluir" hidden>Excluir</button>
+                  <div class="spacer"></div>
+                  <button class="btn soft" type="button" id="btnLimpar">Limpar</button>
+                  <button class="btn primary" type="submit" id="btnPublicar">Publicar</button>
+                </div>
+              </form>
+              <div>
+                <div class="eyebrow">Prévia na extensão</div>
+                <article class="preview">
+                  <div class="cover big" id="pvCover"></div>
+                  <div class="pv-body">
+                    <div><span class="pill" id="pvCat">Categoria</span></div>
+                    <h3 id="pvTitle">Nome do livro</h3>
+                    <div class="by" id="pvAuthor">Autor</div>
+                    <p id="pvText">O texto da equipe aparece aqui.</p>
+                    <div id="pvBuy">
+                      <span class="btn ml">Comprar no Mercado Livre</span>
+                      <div class="tiny">Link de afiliado · você não paga a mais</div>
+                    </div>
+                  </div>
+                </article>
+              </div>
+            </div>
+          </div>
+
+          <!-- Importar lista -->
+          <div class="panel" id="panel-importar" role="tabpanel" aria-labelledby="tab-importar" hidden>
+            <div class="stack">
+              <div>
+                <h2>Importar lista</h2>
+                <p class="sub">Cole uma indicação por linha no formato <span class="mono">Título | Autor | Categoria | Link | Texto</span>. Dá pra copiar direto de uma planilha (colunas separadas por tab também funcionam).</p>
+              </div>
+              <div class="fld"><label for="impText">Lista</label><textarea id="impText" class="mono tall" placeholder="Mistborn: O Império Final | Brandon Sanderson | Fantasia | https://meli.la/... | Um assalto contra um imperador imortal."></textarea></div>
+              <div class="row-head">
+                <b>Prévia</b>
+                <span class="pill ok" id="impOk">0 prontas</span>
+                <span class="pill off" id="impErr" hidden></span>
+                <div class="spacer"></div>
+                <button class="btn primary" type="button" id="btnImp" disabled>Publicar 0 indicações</button>
+              </div>
+              <div class="scrollx">
+                <div class="irow head"><span></span><span>Livro</span><span>Autor</span><span>Categoria</span><span>Link</span><span>Situação</span></div>
+                <div id="impList"></div>
+              </div>
+              <p class="sub">Linhas com erro não são publicadas e ficam na caixa pra você corrigir.</p>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <div class="toast" id="toast" role="status" hidden></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="config.js"></script>
+    <script src="equipe.js"></script>
+  </body>
+</html>
